@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { PrismaClient } from "@prisma/client";
 import { z } from "zod"
 import { compareSync } from "bcrypt"
+import { cookies } from "next/headers";
 
 
 const prisma = new PrismaClient();
@@ -17,7 +18,7 @@ type User = z.infer<typeof UserSchema>
 //authenticate user
 export async function POST(req: NextRequest) {
   const body = await req.json();
-
+  const cookiesStore = cookies();
   //zod
   const { success, data } = UserSchema.safeParse(body) as { success: boolean; data: User };
   if (!success) {
@@ -44,7 +45,7 @@ export async function POST(req: NextRequest) {
   if (!JWT_SECRET) {
     return NextResponse.json({ error: "JWT_SECRET is undefined" })
   }
-  const jwtToken = jwt.sign({ userId: user.id }, JWT_SECRET);
-
-  return NextResponse.json({ response: "account login", token: jwtToken });
+  const jwtToken = "Bearer " + jwt.sign({ userId: user.id }, JWT_SECRET);
+  cookiesStore.set('Authentication', jwtToken);
+  return NextResponse.json({ response: "account login" });
 }

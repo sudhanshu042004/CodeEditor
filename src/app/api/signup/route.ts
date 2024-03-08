@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken";
-
+import { cookies } from "next/headers"
 const UserSchema = z.object({
   email: z.string().email(),
   name: z.string().optional(),
@@ -15,7 +15,7 @@ const prisma = new PrismaClient();
 //signup
 export async function POST(req: NextRequest) {
   const body = await req.json();
-
+  const cookiesStore = cookies();
   //zod validation
   const { success, data } = UserSchema.safeParse(body) as { success: boolean, data: User };
   if (!success) {
@@ -37,7 +37,8 @@ export async function POST(req: NextRequest) {
   if (!JWT_SECRET) {
     return NextResponse.json({ error: "jWT_SECRET is undefined" });
   }
-  const jwtToken = jwt.sign({ userId: user.id }, JWT_SECRET);
+  const jwtToken = "Bearer " + jwt.sign({ userId: user.id }, JWT_SECRET);
 
+  cookiesStore.set("Authentication", jwtToken);
   return NextResponse.json({ response: "account successfully created", token: jwtToken });
 }
