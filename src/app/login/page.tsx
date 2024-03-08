@@ -1,57 +1,71 @@
 "use client"
+import { useForm, SubmitHandler } from 'react-hook-form';
 import axios from 'axios';
-import React, { ChangeEventHandler, useState } from 'react'
+import React from 'react'
+import { MdAlternateEmail } from 'react-icons/md';
+import { SiMonkeytie } from 'react-icons/si';
+
+type Inputs = {
+  email: string,
+  password: string,
+}
 
 const Login = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>()
 
-    async function handleSubmit() {
-        const response = await axios.post("http://localhost:3000/api/login", {
-            email,
-            password
-        });
-        console.log(response);
-    }
 
-    return (<div className="h-screen flex justify-center flex-col">
-        <div className="flex justify-center">
-            <a href="#" className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 ">
-                <div>
-                    <div className="px-10">
-                        <div className="text-3xl text-black font-extrabold">
-                            Login
-                        </div>
-                    </div>
-                    <div className="pt-2">
-                        <LabelledInput onChange={(e) => {
-                            setEmail(e.target.value);
-                        }} label="email" placeholder="harkirat@gmail.com" />
-                        <LabelledInput onChange={(e) => {
-                            setPassword(e.target.value)
-                        }} label="Password" type={"password"} placeholder="123456" />
-                        <button type="button" onClick={handleSubmit} className="mt-8 w-full text-white bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Sign in</button>
-                    </div>
-                </div>
-            </a>
+  const onSubmit: SubmitHandler<Inputs> = async ({ email, password }) => {
+    const response = await axios.post("http://localhost:3000/api/login", {
+      email,
+      password
+    });
+    console.log(response);
+  }
+
+  return (
+    <form onSubmit={handleSubmit(data => onSubmit(data))} className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 h-screen flex-col flex justify-center ">
+      <div>
+        <div className="px-10">
+          <div className="text-3xl text-black font-extrabold">
+            Login
+          </div>
         </div>
-    </div>
+        <div className="pt-2">
+          <label className="block mb-2 text-sm text-black font-semibold pt-4">Email</label>
+          <div className='relative'>
+            <input
+              {...register("email", { required: true })}
+              type='text' className="pl-10 pr-4 py-2 border rounded-lg outline-none focus:border-blue-500 bg-gray-50  border-gray-300 text-gray-900 text-sm focus:ring-blue-500  block w-full p-2.5" placeholder="something@gmail.com" />
+            <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
+              <MdAlternateEmail className='w-5 h-5 text-gray-400 transition-colors duration-300 ease-in-out hover:text-blue-500' />
+            </div>
+          </div>
 
-    )
+          <label className="block mb-2 text-sm text-black font-semibold pt-4">Password</label>
+          <div className='relative'>
+            <input
+              {...register("password", { required: true })}
+              type='password' className="pl-10 pr-4 py-2 border rounded-lg outline-none focus:border-blue-500 bg-gray-50  border-gray-300 text-gray-900 text-sm focus:ring-blue-500  block w-full p-2.5" />
+            <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
+              <SiMonkeytie className='w-5 h-5 text-gray-400 transition-colors duration-300 ease-in-out hover:text-blue-500' />
+            </div>
+          </div>
+          <div className='text-red-500'>
+            {errors.email && errors.password && <span>*fields are required</span>}
+          </div>
+          <button
+            type="submit"
+            className="mt-8 w-full text-white bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Sign in</button>
+        </div>
+      </div>
+    </form>
+
+  )
 }
 
-function LabelledInput({ label, placeholder, type, onChange }: LabelledInputType) {
-    return <div>
-        <label className="block mb-2 text-sm text-black font-semibold pt-4">{label}</label>
-        <input onChange={onChange} type={type || "text"} id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder={placeholder} required />
-    </div>
-}
-
-interface LabelledInputType {
-    label: string;
-    placeholder: string;
-    type?: string;
-    onChange: ChangeEventHandler<HTMLInputElement>
-}
 
 export default Login
