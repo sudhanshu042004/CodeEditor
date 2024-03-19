@@ -12,12 +12,12 @@ var io = socketIo(server, {
 app.use(cors());
 io.on("connection", function (socket) {
     console.log("A user connected");
-    socket.on("code", function (newCode) {
-        io.emit("code", newCode);
+    socket.on("code", function (code) {
+        io.emit("code", code);
     });
-    // socket.on("disconnect", () => {
-    //   console.log("A user disconnected");
-    // });
+    socket.on("disconnect", function () {
+        console.log("A user disconnected");
+    });
 });
 var PORT = 3001;
 server.listen(PORT, function () {

@@ -20,9 +20,9 @@ io.on("connection", (socket: any) => {
     io.emit("code", code);
   });
 
-  // socket.on("disconnect", () => {
-  //   console.log("A user disconnected");
-  // });
+  socket.on("disconnect", () => {
+    console.log("A user disconnected");
+  });
 });
 
 const PORT = 3001;
