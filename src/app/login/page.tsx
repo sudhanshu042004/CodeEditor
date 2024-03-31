@@ -12,7 +12,7 @@ type Inputs = {
 }
 
 const Login = () => {
-  const router = useRouter(); 
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -25,7 +25,7 @@ const Login = () => {
       email,
       password
     });
-    if(response.status === 200){
+    if (response.status === 200) {
       router.push('/dashboard');
     }
   }
@@ -63,7 +63,10 @@ const Login = () => {
           </div>
           <button
             type="submit"
-            className="mt-8 w-full text-white bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Sign in</button>
+            className="mt-8 w-full text-white bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Log in</button>
+        </div>
+        <div onClick={() => router.push("/signup")} className=" cursor-pointer block mb-2 text-sm text-black font-semibold pt-4" >
+          Create an account ? Signup
         </div>
       </div>
     </form>
