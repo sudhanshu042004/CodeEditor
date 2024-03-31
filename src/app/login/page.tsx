@@ -4,6 +4,7 @@ import axios from 'axios';
 import React from 'react'
 import { MdAlternateEmail } from 'react-icons/md';
 import { SiMonkeytie } from 'react-icons/si';
+import { useRouter } from 'next/navigation';
 
 type Inputs = {
   email: string,
@@ -11,6 +12,7 @@ type Inputs = {
 }
 
 const Login = () => {
+  const router = useRouter(); 
   const {
     register,
     handleSubmit,
@@ -23,7 +25,9 @@ const Login = () => {
       email,
       password
     });
-    console.log(response);
+    if(response.status === 200){
+      router.push('/dashboard');
+    }
   }
 
   return (

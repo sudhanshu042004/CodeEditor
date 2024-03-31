@@ -4,11 +4,13 @@ import { z } from "zod";
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers"
+
 const UserSchema = z.object({
   email: z.string().email(),
   name: z.string().optional(),
   password: z.string().min(8),
 })
+
 type User = z.infer<typeof UserSchema>
 const prisma = new PrismaClient();
 

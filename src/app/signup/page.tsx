@@ -1,6 +1,7 @@
 "use client"
 
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { CgNametag } from "react-icons/cg";
 import { MdAlternateEmail } from "react-icons/md";
@@ -14,6 +15,7 @@ type Inputs = {
 
 
 const Signup = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -26,7 +28,9 @@ const Signup = () => {
       password,
       name
     });
-    console.log(response);
+    if (response.status === 200) {
+      router.push('/dashboard')
+    }
   }
 
   return (

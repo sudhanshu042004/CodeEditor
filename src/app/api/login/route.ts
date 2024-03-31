@@ -9,7 +9,6 @@ import { cookies } from "next/headers";
 const prisma = new PrismaClient();
 const UserSchema = z.object({
   email: z.string().email(),
-  name: z.string().optional(),
   password: z.string().min(8),
 })
 
