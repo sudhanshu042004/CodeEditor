@@ -41,6 +41,6 @@ export async function POST(req: NextRequest) {
   }
   const jwtToken = "Bearer " + jwt.sign({ userId: user.id }, JWT_SECRET);
 
-  cookiesStore.set("Authentication", jwtToken);
+  cookiesStore.set("Authorization", jwtToken);
   return NextResponse.json({ response: "account successfully created" });
 }

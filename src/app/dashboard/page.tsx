@@ -11,7 +11,6 @@ const dashboard = () => {
   }
   const token = cookie.value.split(" ")[1];
   const jwtSecret = process.env.JWT_SECRET;
-  console.log(jwtSecret);
   if (jwtSecret === undefined) {
     return console.log("jwt secret is undefined")
   }
