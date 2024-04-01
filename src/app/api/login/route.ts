@@ -1,12 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/app/client";
 import { z } from "zod"
 import { compareSync } from "bcrypt"
 import { cookies } from "next/headers";
 
-
-const prisma = new PrismaClient();
 const UserSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),

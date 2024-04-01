@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/app/client";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import bcrypt from "bcrypt"
@@ -12,7 +12,6 @@ const UserSchema = z.object({
 })
 
 type User = z.infer<typeof UserSchema>
-const prisma = new PrismaClient();
 
 //signup
 export async function POST(req: NextRequest) {
