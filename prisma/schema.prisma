@@ -20,8 +20,8 @@ model User {
 
 model Projects {
   id       Int    @id @default(autoincrement())
-  filename String @unique
-  content  Bytes  @default("")
+  filename String @default("Untitled")
+  content  String
   author   User   @relation(fields: [authorId], references: [id])
   authorId Int
 }
