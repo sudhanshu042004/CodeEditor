@@ -19,9 +19,10 @@ const Login = () => {
     formState: { errors },
   } = useForm<Inputs>()
 
-
+  const URL = process.env.BE_URL;
+  console.log(URL);
   const onSubmit: SubmitHandler<Inputs> = async ({ email, password }) => {
-    const response = await axios.post("http://localhost:3000/api/login", {
+    const response = await axios.post(`http://localhost:3000/api/login`, {
       email,
       password
     });

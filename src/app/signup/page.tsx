@@ -23,7 +23,7 @@ const Signup = () => {
   } = useForm<Inputs>()
 
   const onSubmit: SubmitHandler<Inputs> = async ({ email, password, name }) => {
-    const response = await axios.post("http://localhost:3000/api/signup", {
+    const response = await axios.post(`http://localhost:3000/api/signup`, {
       email,
       password,
       name

@@ -24,7 +24,6 @@ const dashboard = async () => {
     console.log(e);
     return redirect("/login");
   }
-  console.log(tokenVerified);
 
   const getUser = await prisma.user.findUnique({
     where: {
@@ -38,7 +37,7 @@ const dashboard = async () => {
   })
   return (
     <div className='bg-black h-screen p-4'>
-      <div className='flex justify-between font-semibold p-4 bg-zinc-900'>
+      <div className='flex justify-between text-white font-semibold p-4 bg-zinc-900'>
         <div>Code Hub</div>
         <div>{getUser?.name}</div>
       </div>
